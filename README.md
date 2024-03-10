@@ -1,6 +1,6 @@
 # Curso de MySQL: Anotações
 
-Este repositório contém materiais do meu curso de MySQL, incluindo anotações para ajudar no aprendizado.
+Este repositório contém materiais do meu curso de MySQL, incluindo minhas anotações para ajudar no aprendizado.
 
 ## Conteúdo:
 - Anotações detalhadas sobre tópicos importantes abordados no curso.
