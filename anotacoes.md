@@ -320,3 +320,111 @@ select * from pessoas;
 
 > Comando de manipulação de dados são considerados DML (Data Manipulation Language)<br>
 Ex: Insert Into
+
+# Curso MySQL #06 - Alterando a Estrutura da Tabela (ALTER TABLE e DROP TABLE)
+
+## Alterando estrutura da tabela:
+
+~~~~mysql
+alter table pessoas;
+~~~~
+
+## Adicionando colunas: 
+
+> Colunas equivalem aos campos da tabela.
+~~~~mysql
+add column profissao varchar(10);
+~~~~
+
+# Removendo colunas:
+
+~~~~mysql
+alter table pessoas
+drop column profissao;
+~~~~
+
+## Escolhendo a posição da coluna
+
+~~~~mysql
+alter table pessoas
+add column profissao varchar(10) after nome;
+~~~~
+
+> Isso coloca a coluna 'profissao' depois da coluna 'nome'
+
+## Adicionando a coluna na primeira posição:
+
+~~~~mysql
+alter table pessoas
+add column codigo int first;
+~~~~
+
+> a palavra 'column' é opcional e pode ser omitida.
+
+## Modificando definições:
+
+~~~~mysql
+alter table pessoas
+modify column profissao varchar(20) not null;
+~~~~
+
+> Aqui foi adicionada uma constraint 'not null' porém como o default do mysql é 'null' para os valores assim que se cria uma coluna, pode ser adicionado o seguinte código:
+
+~~~~mysql
+alter table pessoas
+modify column profissao varchar(20) not null default '';
+~~~~
+
+> Assim o default é definido para vazio ao invés de 'null'.
+
+## Renomeando coluna
+
+~~~~mysql
+alter table pessoas
+change column profissao prof varchar(20);
+~~~~
+
+## Renomenado tabela
+
+~~~~mysql
+alter table pessoas
+rename to gafanhotos;
+~~~~
+
+> Os comando anteriores com o nome antigo da tabela irão resultar em erro.
+
+## Criando mais uma tabela 
+
+> 'if not exists' (se não existir faz algo)
+
+> 'unique' não deixa colocar dos valores do campo com o mesmo nome
+
+> unsigned não deixa colocar sinal nos números assim evitando números negativos e economizando 1 byte
+
+~~~~mysql
+create table if not exists cursos (
+nome varchar(30) not null unique,
+descricao text,
+carga int unsigned,
+totaulas int unsigned,
+ano year default '2024'
+) default charset=utf8;
+
+describe cursos;
+~~~~
+
+## Adicionando chave primaária
+
+~~~~mysql
+alter table cursos
+add primary key (idcurso);
+~~~~
+
+## Apagando tabela
+
+~~~~mysql
+drop table if exists teste;
+~~~~
+
+> O alter table  e o drop table são comandos DDL(comandos de definição) porque mexem na estrutura.
+
