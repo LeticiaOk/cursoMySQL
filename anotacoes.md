@@ -163,7 +163,7 @@ nascimento date,
 sexo enum('M', 'F'),
 peso decimal(5,2),
 altura decimal (3,2),
-nacionalidade varchat(20) default 'Brasil'
+nacionalidade varchar(20) default 'Brasil'
 )default charset utf8;
 ~~~~
 > Trocado o campo 'idade' por nascimento assim o sistema pode sempre atualizar a idade do usuário de acordo com a data de nascimento. 
@@ -178,7 +178,7 @@ nacionalidade varchat(20) default 'Brasil'
 
 > Adicionado 'peso decimal(5,2),'. O 5 reperesenta o número de casas no total e o 2 o número de casas após a virgula.
 
-> Adicionado 'nacionalidade varchat(20) default 'Brasil'' se não colocar nada neste campo o padrão irá ser brasil.
+> Adicionado 'nacionalidade varchar(20) default 'Brasil'' se não colocar nada neste campo o padrão irá ser brasil.
 
 ## Colocando os campos entre crases:
 
@@ -205,7 +205,7 @@ nascimento date,
 sexo enum('M', 'F'),
 peso decimal(5,2),
 altura decimal (3,2),
-nacionalidade varchat(20) default 'Brasil'
+nacionalidade varchar(20) default 'Brasil'
 )default charset utf8;
 ~~~~
 
@@ -221,7 +221,7 @@ nascimento date,
 sexo enum('M', 'F'),
 peso decimal(5,2),
 altura decimal (3,2),
-nacionalidade varchat(20) default 'Brasil',
+nacionalidade varchar(20) default 'Brasil',
 primary key (id)
 )default charset utf8;
 ~~~~
