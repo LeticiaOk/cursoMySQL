@@ -8,6 +8,6 @@ Este repositório contém minhas anotações do curso de MySQL para ajudar no ap
 ## Contribuições:
 Contribuições são bem-vindas! Sinta-se à vontade para enviar novos exercícios, corrigir erros nas anotações ou melhorar o conteúdo existente. 
 
-## Plataforma de estudo:
+## Plataforma de Estudo:
 [Curso em Vídeo](https://www.cursoemvideo.com).
 
