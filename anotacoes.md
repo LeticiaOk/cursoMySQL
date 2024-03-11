@@ -465,7 +465,7 @@ Where idcurso = '1'; // onde
 
 ## Modificando mais de um valor ao mesmo tempo
 
-~~~~msql
+~~~~mysql
 update cursos 
 set nome = 'PHP', ano = 2015  
 where idcurso = '4';
