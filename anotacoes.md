@@ -533,7 +533,7 @@ truncate cursos;
 * alter table
 * drop table
 
-### Comando DML (Data Manipulation Language)
+### Comando DML (Data Manipulation Language):
 
 * Insert into
 * update
