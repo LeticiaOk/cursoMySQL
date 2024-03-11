@@ -428,3 +428,114 @@ drop table if exists teste;
 
 > O alter table  e o drop table são comandos DDL(comandos de definição) porque mexem na estrutura.
 
+# Curso MySQL #07 - Manipulando Linhas (UPDATE, DELETE e TRUNCATE)
+
+
+> Linhas, tuplas e registros são a mesma coisa em MySQL.
+
+> Campos, atributos e colunas são a mesma coisa em MySQL.
+
+## Adicionando registros:
+
+~~~~mysql
+insert into cursos values
+
+('2', 'Algorítimos', 'Lógica de Programação','20','15','2014'),
+('3', 'Photoshop', 'Dicas de Photoshop CC','10','8','2014'),
+('4', 'PGP', 'Curso de PHP para iniciantes','40,','20','2010'),
+('5', 'Jarva', 'Introdução a Linguagem Java','10','29','2000'),
+('6', 'MySQL', 'Banco de Dados MySQL','30','15','2016'),
+('7', 'Word', 'Curso Completo de Word','40','30','2016'),
+('8', 'Sapateado', 'Danças Rítmicas','40','30','2018'),
+('9', 'Cozinha Árabe', 'Aprenda a fazer Kibe','40','30','2018'),
+('10', 'Youtuber', 'Gerar polêmica e ganhar inscritos','5','2','2018');
+~~~~
+
+## Modificando linhas Incorretas:
+
+~~~~mysql~
+update cursos // atualize
+set nome = 'HTML5' // configure
+Where idcurso = '1'; // onde
+~~~~
+
+> Usa a chave primária 'idcurso = '1' porque só tem uma linha com o idcurso = 1. A partir disto é possivel identificar a linha onde se quer fazer a alateração.
+
+> Dessa forma 'HTML4'da tabela vai ser substituido por 'HTML5'.
+
+## Modificando mais de um valor ao mesmo tempo
+
+~~~~msql
+update cursos 
+set nome = 'PHP', ano = 2015  
+where idcurso = '4';
+~~~~
+
+> Apenas adicionando a virgula e o valor que deseja alterar já se pode alterar mais um valor ao mesmo tempo
+
+> Dessa forma o valor de nome e ano foram alterados.
+
+## Modificando linhas de forma limitada 
+
+~~~~mysql
+update cursos 
+set nome = 'JAVA', ano = 2015 , carga = '40' 
+where idcurso = '5'
+limit 1;
+~~~~
+
+> dessa forma usando o limit apenas 1 linha será afetada
+
+## Modificando linhas de forma ilimitada
+
+> Habilitar a permissão para modificar mais de uma linha ao mesmo tempo no MySQL:<br>
+> edit > preferences > SQL editor > safe updates > desabilitar > reconectar
+
+~~~~mysql
+update cursos 
+set ano = '2050', carga = '800' 
+where ano = '2018';
+~~~~
+
+> dessa forma todas as linhas com o ano  = 2018 serão afetadas.
+
+> Se usasse o limit afetaria apenas a primeira linha.
+
+## Removendo linhas
+
+~~~~mysql
+delete from cursos
+where idcurso = '8';
+~~~~
+
+> Apaga a linha pelo id
+
+## Deletando mais de uma linha ao mesmo tempo
+
+~~~~mysql
+delete from cursos
+where ano = '2050'
+limit 2;
+~~~~
+
+> Usando o limit para limitar o número de linhas que serão apagadas.
+
+## Removendo todas as linhas de uma tabela
+
+~~~~mysql
+truncate cursos;
+~~~~
+
+### Comandos DDL (Data Definition Languafe):
+
+* create database
+* create table
+* alter table
+* drop table
+
+### Comando DML (Data Manipulation Language)
+
+* Insert into
+* update
+* delete
+* truncate
