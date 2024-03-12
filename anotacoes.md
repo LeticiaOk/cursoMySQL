@@ -439,7 +439,7 @@ drop table if exists teste;
 
 ~~~~mysql
 insert into cursos values
-
+('1', 'HTML5', 'Curso de HTML5', '40', '37', '2014'),
 ('2', 'Algorítimos', 'Lógica de Programação','20','15','2014'),
 ('3', 'Photoshop', 'Dicas de Photoshop CC','10','8','2014'),
 ('4', 'PGP', 'Curso de PHP para iniciantes','40,','20','2010'),
@@ -459,7 +459,7 @@ set nome = 'HTML5' // configure
 Where idcurso = '1'; // onde
 ~~~~
 
-> Usa a chave primária 'idcurso = '1' porque só tem uma linha com o idcurso = 1. A partir disto é possivel identificar a linha onde se quer fazer a alateração.
+> Usa a chave primária 'idcurso = '1' porque só tem uma linha com o idcurso = 1. A partir disto é possivel identificar a linha onde se quer fazer a alteração.
 
 > Dessa forma 'HTML4'da tabela vai ser substituido por 'HTML5'.
 
@@ -471,7 +471,7 @@ set nome = 'PHP', ano = 2015
 where idcurso = '4';
 ~~~~
 
-> Apenas adicionando a virgula e o valor que deseja alterar já se pode alterar mais um valor ao mesmo tempo
+> Apenas adicionando a virgula e o valor que deseja alterar já se pode alterar mais DE um valor ao mesmo tempo
 
 > Dessa forma o valor de nome e ano foram alterados.
 
@@ -499,7 +499,7 @@ where ano = '2018';
 
 > dessa forma todas as linhas com o ano  = 2018 serão afetadas.
 
-> Se usasse o limit afetaria apenas a primeira linha.
+> Se usasse o 'limit 1' afetaria apenas a primeira linha.
 
 ## Removendo linhas
 
@@ -533,9 +533,52 @@ truncate cursos;
 * alter table
 * drop table
 
-### Comando DML (Data Manipulation Language):
+### Comando DML (Data Manipulation Language)
 
 * Insert into
 * update
 * delete
 * truncate
+
+# Curso MySQL #08 - Gerenciando Cópias de Segurança MySQL
+
+## Exportando:
+> Server > Data Export > selecionar banco de dados > Export to Self-Contained File > Include Create Schema > Start Export.
+
+## Abrindo arquivo:
+> documentos > dumps > arquivo msql.
+
+## Importando:
+> Server > Data Import > Import to Self-Contained File > ... > seleciona o arquivo msql > Start Import > refresh.
+
+> Dump é a mesma coisa que criar uma cópia de um banco de dados.
+
+## Mostrando tabelas:
+
+~~~~mysql
+show tables;
+~~~~
+
+# Curso MySQL #09 - PHPMyAdmin (Parte 1)
+
+> Comando no shell para usar comandos sql:<br>
+>mysql -h localhost -u root -p
+
+## Comandos para usar no shhell
+
+### Mostrar bancos de dados:
+
+> show databases;
+
+### Ver qual banco está ativo no momento:
+
+> status;
+
+### Ativar banco de dados:
+
+> use cadastro;
+
+### Mostrar tabelas:
+> show tables;
+
+> Usar seta para cima e para baixa volta no histórico de comandos.
