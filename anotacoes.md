@@ -3,19 +3,19 @@
 >Bancos de dados são conjuntos de tabelas, tabelas são conjuntos de registros e registros são conjuntos de campos.
 
 ## Criando banco de dados:
-~~~~mysql
+~~~~sql
 create database cadastro;
 ~~~~
 
 ## Criando tabelas:
-~~~~mysql
+~~~~sql
 create table pessoas(
 
 );
 ~~~~
 
 ## Colocando os campos:
-~~~~mysql
+~~~~sql
 create table pessoas(
 nome,
 idade,
@@ -100,7 +100,7 @@ nacionalidade
 > O tipo espacial permite guardar informações sobre volumétricos.
 
 ## Colocando tipos para cada um dos campos:
-~~~~mysql
+~~~~sql
 create table pessoas(
 nome varchar(30),
 idade tinyint,
@@ -119,35 +119,40 @@ nacionalidade varchar(20)
 
 ## Selcionando banco de dados
 
-~~~~mysql
+~~~~sql
 use pessoas;
 ~~~~
 
 ## Mostrando estrutura interna de uma tabela
 
-~~~~mysql
+~~~~sql
 describe pessoas;
 ~~~~
 
+ou
+
+~~~~sql
+desc pessoas;
+~~~~
 
 # Curso MySQL #04 - Melhorando a Estrutura do Banco de Dados
 
 ## Apagando banco de dados:
 
-~~~~mysql
+~~~~sql
 drop database cadastro;
 ~~~~
 
 ## Adicionando constraints:
 
-~~~~mysql
+~~~~sql
 create database cadastro
 default character set utf8
 ~~~~
 
 ## Adicionando collation:
 
-~~~~mysql
+~~~~sql
 create database cadastro
 default character set utf8
 default collate utf8_general_ci;
@@ -156,14 +161,14 @@ default collate utf8_general_ci;
 > Dessa forma o banco consegue trabalhar com caracteres espceciais e acentuações.
 
 ## Aprimorando o banco de dados:
-~~~~mysql
+~~~~sql
 create table pessoas(
 nome varchar(30) not null,
 nascimento date,
 sexo enum('M', 'F'),
 peso decimal(5,2),
 altura decimal (3,2),
-nacionalidade varchar(20) default 'Brasil'
+nacionalidade varchat(20) default 'Brasil'
 )default charset utf8;
 ~~~~
 > Trocado o campo 'idade' por nascimento assim o sistema pode sempre atualizar a idade do usuário de acordo com a data de nascimento. 
@@ -178,11 +183,11 @@ nacionalidade varchar(20) default 'Brasil'
 
 > Adicionado 'peso decimal(5,2),'. O 5 reperesenta o número de casas no total e o 2 o número de casas após a virgula.
 
-> Adicionado 'nacionalidade varchar(20) default 'Brasil'' se não colocar nada neste campo o padrão irá ser brasil.
+> Adicionado 'nacionalidade varchat(20) default 'Brasil'' se não colocar nada neste campo o padrão irá ser brasil.
 
 ## Colocando os campos entre crases:
 
-~~~~mysql
+~~~~sql
 create table `pessoas`(
 `nome` varchar(30) not null,
 `nascimento` date,
@@ -193,11 +198,11 @@ create table `pessoas`(
 ) default charset = utf8;
 ~~~~
  
-> Isso permite seremultilizados campos com acentos e espaços apezar de não ser recomendável
+> Isso permite serem ultilizados campos com acentos e espaços apezar de não ser recomendável
 
 ## Adcionando campos de chave primária:
 
-~~~~mysql
+~~~~sql
 create table pessoas(
 id int not null auto_increment,
 nome varchar(30) not null,
@@ -205,7 +210,7 @@ nascimento date,
 sexo enum('M', 'F'),
 peso decimal(5,2),
 altura decimal (3,2),
-nacionalidade varchar(20) default 'Brasil'
+nacionalidade varchat(20) default 'Brasil'
 )default charset utf8;
 ~~~~
 
@@ -213,7 +218,7 @@ nacionalidade varchar(20) default 'Brasil'
 
 ## Adicionando campos como chave primária
 
-~~~~mysql
+~~~~sql
 create table pessoas(
 id int not null auto_increment,
 nome varchar(30) not null,
@@ -221,7 +226,7 @@ nascimento date,
 sexo enum('M', 'F'),
 peso decimal(5,2),
 altura decimal (3,2),
-nacionalidade varchar(20) default 'Brasil',
+nacionalidade varchat(20) default 'Brasil',
 primary key (id)
 )default charset utf8;
 ~~~~
@@ -236,7 +241,7 @@ primary key (id)
 
 ### Adcionando campos dentro de listas:
 
-~~~~mysql
+~~~~sql
 create database cadastro
 default character set utf8
 default collate utf8_general_ci;
@@ -257,12 +262,12 @@ primary key (id)
 ~~~~
 ### Adcionando valores dentro de listas:
 
-~~~~mysql
+~~~~sql
 ('1', 'Godofredo', '1984-01-2', 'M', '7.85', '1.83', 'Brasil');
 ~~~~
 ### Ligando os campos com os dados:
 
-~~~~mysql
+~~~~sql
 insert into pessoas
 (nome, nascimento, sexo, peso, altura, nacionalidade)
 values
@@ -272,13 +277,13 @@ values
 > Não é necessário colocar o 'id' já que ele já se autoincrementa
 
 ### Mostrandos os dados:
-~~~~mysql
+~~~~sql
 select * from pessoas;
 ~~~~
 
 ### Técnicas para inserir dados:
 > Ao invés de ocutar o id ele pode ser substuido pela constrain 'default':
-~~~~mysql
+~~~~sql
 insert into pessoas
 (id, nome, nascimento, sexo, peso, altura, nacionalidade)
 values
@@ -289,7 +294,7 @@ select * from pessoas;
 
 > Também pode ser utilizado na nacionalidade:
 
-~~~~mysql
+~~~~sql
 insert into pessoas
 (id, nome, nascimento, sexo, peso, altura, nacionalidade)
 values
@@ -300,7 +305,7 @@ select * from pessoas;
 
 > Se a ordem dos valores for a mesma dos campos não é necessário especificar os campos no início:
 
-~~~~mysql
+~~~~sql
 insert into pessoas values
 (default, 'Adalgiza', '1930-11-2', 'F', '63.2', '1.75', 'Irlanda');
 
@@ -309,7 +314,7 @@ select * from pessoas;
 
 > É possível inserir vários dados de uma vez:
 
-~~~~mysql
+~~~~sql
 insert into pessoas values
 (default, 'Cláudio', '1975-4-22', 'M', '99.0', '2.15', 'Brasil'),
 (default, 'Pedro', '1999-12-3', 'M', '87', '2', default),
@@ -319,33 +324,33 @@ select * from pessoas;
 ~~~~
 
 > Comando de manipulação de dados são considerados DML (Data Manipulation Language)<br>
-Ex: Insert Into
+> Ex: Insert Into
 
 # Curso MySQL #06 - Alterando a Estrutura da Tabela (ALTER TABLE e DROP TABLE)
 
 ## Alterando estrutura da tabela:
 
-~~~~mysql
+~~~~sql
 alter table pessoas;
 ~~~~
 
 ## Adicionando colunas: 
 
 > Colunas equivalem aos campos da tabela.
-~~~~mysql
+~~~~sql
 add column profissao varchar(10);
 ~~~~
 
 # Removendo colunas:
 
-~~~~mysql
+~~~~sql
 alter table pessoas
 drop column profissao;
 ~~~~
 
 ## Escolhendo a posição da coluna
 
-~~~~mysql
+~~~~sql
 alter table pessoas
 add column profissao varchar(10) after nome;
 ~~~~
@@ -354,7 +359,7 @@ add column profissao varchar(10) after nome;
 
 ## Adicionando a coluna na primeira posição:
 
-~~~~mysql
+~~~~sql
 alter table pessoas
 add column codigo int first;
 ~~~~
@@ -363,14 +368,14 @@ add column codigo int first;
 
 ## Modificando definições:
 
-~~~~mysql
+~~~~sql
 alter table pessoas
 modify column profissao varchar(20) not null;
 ~~~~
 
 > Aqui foi adicionada uma constraint 'not null' porém como o default do mysql é 'null' para os valores assim que se cria uma coluna, pode ser adicionado o seguinte código:
 
-~~~~mysql
+~~~~sql
 alter table pessoas
 modify column profissao varchar(20) not null default '';
 ~~~~
@@ -379,14 +384,14 @@ modify column profissao varchar(20) not null default '';
 
 ## Renomeando coluna
 
-~~~~mysql
+~~~~sql
 alter table pessoas
 change column profissao prof varchar(20);
 ~~~~
 
 ## Renomenado tabela
 
-~~~~mysql
+~~~~sql
 alter table pessoas
 rename to gafanhotos;
 ~~~~
@@ -401,7 +406,7 @@ rename to gafanhotos;
 
 > unsigned não deixa colocar sinal nos números assim evitando números negativos e economizando 1 byte
 
-~~~~mysql
+~~~~sql
 create table if not exists cursos (
 nome varchar(30) not null unique,
 descricao text,
@@ -415,18 +420,18 @@ describe cursos;
 
 ## Adicionando chave primaária
 
-~~~~mysql
+~~~~sql
 alter table cursos
 add primary key (idcurso);
 ~~~~
 
 ## Apagando tabela
 
-~~~~mysql
+~~~~sql
 drop table if exists teste;
 ~~~~
 
-> O alter table  e o drop table são comandos DDL(comandos de definição) porque mexem na estrutura.
+> O alter table  e o drop table são comandos DDL (comandos de definição) porque mexem na estrutura.
 
 # Curso MySQL #07 - Manipulando Linhas (UPDATE, DELETE e TRUNCATE)
 
@@ -437,7 +442,7 @@ drop table if exists teste;
 
 ## Adicionando registros:
 
-~~~~mysql
+~~~~sql
 insert into cursos values
 ('1', 'HTML5', 'Curso de HTML5', '40', '37', '2014'),
 ('2', 'Algorítimos', 'Lógica de Programação','20','15','2014'),
@@ -453,7 +458,7 @@ insert into cursos values
 
 ## Modificando linhas Incorretas:
 
-~~~~mysql~
+~~~~sql
 update cursos // atualize
 set nome = 'HTML5' // configure
 Where idcurso = '1'; // onde
@@ -465,7 +470,7 @@ Where idcurso = '1'; // onde
 
 ## Modificando mais de um valor ao mesmo tempo
 
-~~~~mysql
+~~~~sql
 update cursos 
 set nome = 'PHP', ano = 2015  
 where idcurso = '4';
@@ -477,7 +482,7 @@ where idcurso = '4';
 
 ## Modificando linhas de forma limitada 
 
-~~~~mysql
+~~~~sql
 update cursos 
 set nome = 'JAVA', ano = 2015 , carga = '40' 
 where idcurso = '5'
@@ -491,7 +496,7 @@ limit 1;
 > Habilitar a permissão para modificar mais de uma linha ao mesmo tempo no MySQL:<br>
 > edit > preferences > SQL editor > safe updates > desabilitar > reconectar
 
-~~~~mysql
+~~~~sql
 update cursos 
 set ano = '2050', carga = '800' 
 where ano = '2018';
@@ -503,7 +508,7 @@ where ano = '2018';
 
 ## Removendo linhas
 
-~~~~mysql
+~~~~sql
 delete from cursos
 where idcurso = '8';
 ~~~~
@@ -512,7 +517,7 @@ where idcurso = '8';
 
 ## Deletando mais de uma linha ao mesmo tempo
 
-~~~~mysql
+~~~~sql
 delete from cursos
 where ano = '2050'
 limit 2;
@@ -522,11 +527,11 @@ limit 2;
 
 ## Removendo todas as linhas de uma tabela
 
-~~~~mysql
+~~~~sql
 truncate cursos;
 ~~~~
 
-### Comandos DDL (Data Definition Languafe):
+### Comandos DDL (Data Definition Language):
 
 * create database
 * create table
@@ -555,7 +560,7 @@ truncate cursos;
 
 ## Mostrando tabelas:
 
-~~~~mysql
+~~~~sql
 show tables;
 ~~~~
 
@@ -564,7 +569,7 @@ show tables;
 > Comando no shell para usar comandos sql:<br>
 >mysql -h localhost -u root -p
 
-## Comandos para usar no shhell
+## Comandos para usar no shhell 
 
 ### Mostrar bancos de dados:
 
@@ -582,3 +587,128 @@ show tables;
 > show tables;
 
 > Usar seta para cima e para baixa volta no histórico de comandos.
+
+# Curso MySQL #10 - PHPMyAdmin (Parte 2)
+
+## Comando para mostar como foi criada a tabela com os valores:
+
+~~~~sql
+show create table amigos;
+~~~~
+
+### Mostra:
+
+~~~~sql
+ CREATE TABLE `amigos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(30) NOT NULL,
+  `telefone` varchar(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nome` (`nome`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci
+~~~~
+
+## Comando para mostrar como foi criado o banco de dados
+
+
+~~~~sql
+show create database exemplo;
+~~~~
+
+### Mostra:
+
+~~~~sql
++----------+------------------------------------------------------------------------------------------+
+| Database | Create Database                                                                          |
++----------+------------------------------------------------------------------------------------------+
+| exemplo  | CREATE DATABASE `exemplo` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci */ |
++----------+------------------------------------------------------------------------------------------+
+~~~~
+
+## Gerando/exportando DUMP no phpmyadmin
+
+> casinha > Personalizada - exibir todas as opções possíveis > selecionar opção > Executar
+
+## Apagando banco de dados
+
+> casinha > base de dados > selecionar o banco de dados > elimina
+
+# Curso MySQL #11 - SELECT (Parte 1)
+
+## Ordenando colunas pelo nome (ordem alfabética):
+
+~~~~sql
+select * from cursos
+order by nome;
+~~~~
+
+## Ordenando colunas pelo nome de forma inversa:
+
+~~~~sql
+select * from cursos
+order by nome desc;
+~~~~
+
+> Se no lugar de 'desc' for colocado 'asc' a ordem alfabética voltará a ser normal.
+
+## Selecionando colunas:
+
+~~~~sql
+select nome, carga, ano from cursos;
+~~~~
+
+> Isso mostra apenas as colunas informadas e seus valores.
+
+### Invertendo a ordem das colunas selecionadas:
+
+~~~~sql
+  select ano, nome, carga from cursos;
+~~~~
+
+### Ordenando colunas selecionadas pelo ano:
+
+~~~~sql
+select ano, nome, carga from cursos
+order by ano;
+~~~~
+
+### Ordenando colunas selecionadas pelo ano e pelo nome:
+
+~~~~sql
+select ano, nome, carga from cursos
+order by ano, nome;
+~~~~
+
+## Selecionando linhas
+
+~~~~sql
+select * from cursos
+where ano = '2016'
+order by nome;
+~~~~
+
+> Isso mostra todas as linhas com ano igual '2016'.
+
+## Selecionando linhas e colunas
+
+~~~~sql
+select nome, carga from cursos
+where ano = '2016'
+order by nome;
+~~~~
+
+> A coluna do ano não irá ser processada a não ser que coloque no select.
+
+## Selecionando linhas e colunas com operadores relacionais:
+
+~~~~sql
+select nome, descricao from cursos
+where ano <= 2015
+order by nome;
+~~~~
+
+> Dessa forma apenas as linhas com ano menor ou igual a 2016 irão ser processadas.
+
+> Observação: o número 2016 não precisa estar entre aspas
+
+> Aceita operadores: =, <, >, <=, =>
