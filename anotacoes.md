@@ -214,7 +214,7 @@ nacionalidade varchat(20) default 'Brasil'
 )default charset utf8;
 ~~~~
 
-> 'id int not null auto_increment,' autoincrementa o campo 'id' de acordo com o número de cadastros. A primeira pessoa vais er id1 a segundo id2 etc.
+> 'id int not null auto_increment,' autoincrementa o campo 'id' de acordo com o número de cadastros. A primeira pessoa vai ser id1, a segunda id2 etc.
 
 ## Adicionando campos como chave primária
 
@@ -402,7 +402,7 @@ rename to gafanhotos;
 
 > 'if not exists' (se não existir faz algo)
 
-> 'unique' não deixa colocar dos valores do campo com o mesmo nome
+> 'unique' não deixa colocar dois valores do campo com o mesmo nome
 
 > unsigned não deixa colocar sinal nos números assim evitando números negativos e economizando 1 byte
 
@@ -689,7 +689,7 @@ order by nome;
 
 > Isso mostra todas as linhas com ano igual '2016'.
 
-## Selecionando linhas e colunas
+## Selecionando intervalos de linhas
 
 ~~~~sql
 select nome, carga from cursos
@@ -699,7 +699,7 @@ order by nome;
 
 > A coluna do ano não irá ser processada a não ser que coloque no select.
 
-## Selecionando linhas e colunas com operadores relacionais:
+## Selecionando intervalos de linhas com operadores relacionais:
 
 ~~~~sql
 select nome, descricao from cursos
@@ -709,6 +709,223 @@ order by nome;
 
 > Dessa forma apenas as linhas com ano menor ou igual a 2016 irão ser processadas.
 
-> Observação: o número 2016 não precisa estar entre aspas
+> Observação: o número 2015 não precisa estar entre aspas.
 
-> Aceita operadores: =, <, >, <=, =>
+> Aceita operadores: =, <, >, <=, =>, (!= ou <>)
+
+## Selecionando itervalo de linhas com comandos:
+
+### between / and:
+~~~~sql
+select nome, ano from cursos
+where ano between 2014 and 2016
+order by ano desc, nome asc;
+~~~~
+
+> Irá mostrar os registros onde o ano esteja entre 2014 e 2016, ordenados peo ano de form descrescente e depois pelo nome.
+
+### in:
+
+~~~~sql
+select nome, descricao, ano from cursos
+where ano in (2014, 2016)
+order by ano;
+~~~~
+
+> Irá mostrar os registros com os anos de 2014 e 2016 e ordenará pelo ano.
+
+## Selecionando itervalo de linhas com operadores lógicos:
+
+### and:
+~~~~sql
+select * from cursos 
+where carga > 35 and totaulas < 30;
+~~~~
+
+> Irá mostar os registros onde a carga seja maior que 35 e o total de aula menor que 30.
+
+### or:
+
+~~~~sql
+select nome, carga, totaulas from cursos 
+where carga > 35 or totaulas < 30;
+~~~~
+
+> Dessa forma se os registros tiverem carga acima de 35 ou total de aulaas abaixo de 30 eles irão ser processados.
+
+### Comandos DDL (Data Definition Language):
+
+* create database
+* create table
+* alter table
+* drop table
+
+### Comandos DML (Data Manipulation Language)
+
+* Insert into
+* update
+* delete
+* truncate
+
+## Comandos DQL (Data Query Language)
+
+* select
+
+# Curso MySQL #12 - SELECT (Parte 2)
+
+## Usando o operador like:
+
+~~~~sql
+select * from cursos
+where nome like 'P%';
+~~~~
+
+> Irá mostrar todos os registros com a letra inical 'P' antes de qualquer caractere ou nada.
+
+### Wildcards:
+
+~~~~sql
+select * from cursos
+where nome like '%a';
+~~~~
+
+> Irá mostrar todos os registros com a letra final 'A' após qualquer caractere ou nada.
+
+~~~~sql
+select * from cursos
+where nome like '%a%';
+~~~~
+
+> Irá mostrar todos os registros com a letra 'A' em qualquer posição, após ou antes de qualquer caractere ou nada.
+
+~~~~sql
+select * from cursos
+where nome not like '%a%';
+~~~~
+
+> Irá mostrar todos os registros que NÃO tenham a letra 'A' em qualquer posição.
+
+~~~~sql
+select * from cursos
+where nome like 'PH%P';
+~~~~
+
+> Irá mostrar todos os registros que comecem com 'PH' e terminem com 'P'.
+
+~~~~sql
+select * from cursos
+where nome like 'PH%P%';
+~~~~
+
+> Irá mostrar todos os registros que comecem com 'PH' e terminem com 'P' seguido de qualquer letra, número ou nada.
+
+~~~~sql
+select * from cursos
+where nome like 'PH%P_';
+~~~~
+
+> Irá mostrar todos os registros que comecem com 'PH' e terminem com 'P' seguido OBRIGATÓRIAMENTE de qualquer letra ou número.
+
+~~~~sql
+select * from cursos
+where nome like 'p__t%';
+~~~~
+
+> Irá mostrar todos os registros que tenham OBRIGATÓRIAMENTE exatamente dois caracteres após o 'p', e que depois tenham a letra 't' e que depois tenha qualquer número de caracteres.
+
+
+~~~~sql
+select * from gafanhotos
+where nome like '%_silva%';
+~~~~
+
+> Irá mostrar todos os registros que tenham 'silva' em qualquer lugar com um espaço antes (Isso evita que nomes como 'Silvana' sejam procesados).
+
+## Distinguido
+
+~~~~sql
+select distinct nacionalidade from gafanhotos
+order by nacionalidade;
+~~~~
+
+> Irá mostrar todos os registros da coluna 'nacionalidade' sem repetir caso haja mais de um mesmo registro.
+
+## Funções de Agregação
+
+### count:
+
+~~~~sql
+select count(*) from cursos;
+~~~~
+
+> Conta quantos registros tem na tabela.
+
+~~~~sql
+select count(*) from cursos where carga > 40;
+~~~~
+
+> Conta quantos registros com a carga maior de 40 tem na tabela.
+
+~~~~sql
+select count(nome) from cursos;
+~~~~
+
+> Conta quantos registros 'nome' tem na tabela.
+
+### max:
+
+~~~~sql
+select max(carga) from cursos;
+~~~~
+
+> Mostra o registro com a maior carga da tabela.
+
+~~~~sql
+select max(totaulas) from cursos where ano = 2016;
+~~~~
+
+> Mostra o registro com o maior número de total de aulas da tabela onde o ano é igual a 2016.
+
+### min:
+
+~~~~sql
+select nome, min(totaulas) from cursos where ano = 2016;
+~~~~
+
+> Mostra o nome e o menor número de total de aulas da tabela onde o ano é igual a 2016.
+
+> OBS: Mostra epnas a primeira linha mesmo que tenham outras com o mesmo valor do campo.
+
+### sum:
+
+~~~~sql
+select sum(totaulas) from cursos;
+~~~~
+
+> Soma o total dos registros da coluna 'totaulas' da tabela 'cursos'
+
+~~~~sql
+select sum(totaulas) from cursos where ano = 2016;
+~~~~
+
+> Mostra a soma dos registros da coluna 'totaulas' onde o ano é igual a 2016.
+
+### avg:
+
+~~~~sql
+select avg(totaulas) from cursos;
+~~~~
+
+> Faz a média dos registros da coluna 'totaulas' da tabela 'cursos'.
+
+
+~~~~sql
+select sum(totaulas) from cursos where ano = 2016;
+~~~~
+
+> Faz a média dos registros da coluna 'totaulas' da tabela 'cursos' onde o ano é igual a 2016.
+
+## Modificando linhas diretamente da estrutura da tabela:
+
+> Clicar duas vezes no registro que quer editar > Editar o registro > Enter > Apply > Apply > Finish
+> Também é possivel adicionar um novo registro clicando duas vezes nos campos ao final da tabela.
