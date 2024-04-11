@@ -839,7 +839,7 @@ select * from gafanhotos
 where nome like '%_silva%';
 ~~~~
 
-> Irá mostrar todos os registros que tenham 'silva' em qualquer lugar com um espaço antes (Isso evita que nomes como 'Silvana' sejam procesados).
+> Irá mostrar todos os registros que tenham 'silva' em qualquer lugar com um espaço antes (Isso evita que nomes como 'Silvana' sejam processados).
 
 ## Distinguido
 
@@ -924,8 +924,116 @@ select sum(totaulas) from cursos where ano = 2016;
 ~~~~
 
 > Faz a média dos registros da coluna 'totaulas' da tabela 'cursos' onde o ano é igual a 2016.
-
 ## Modificando linhas diretamente da estrutura da tabela:
 
 > Clicar duas vezes no registro que quer editar > Editar o registro > Enter > Apply > Apply > Finish
 > Também é possivel adicionar um novo registro clicando duas vezes nos campos ao final da tabela.
+
+# Curso MySQL #13 - SELECT (Parte 3)
+
+## Distinguindo:
+~~~~sql
+select distinct carga from cursos
+order by carga;
+~~~~
+
+> Irá mostrar todas as cargas dos cursos sem repetição caso haja cargas com numeros iguais e oordena-las em ordem crescente
+
+## Agrupando:
+
+~~~~sql
+select carga from cursos
+group by carga;
+~~~~
+
+> Irá agrupar os registros que tem o mesmo valor
+
+## Agrupando e Agregando:
+
+~~~~sql
+select carga, count(*)  from cursos
+group by carga;
+~~~~
+> Irá agrupar os registros que tem o mesmo valor e mostrar o numero de total de registros em cada grupo.
+
+## Agrupando com where
+~~~~sql
+select carga, count(*) from cursos where totaulas = 30
+group by carga;
+~~~~
+
+> Irá mostrar as cargas dos registros que tenham o total de aulas iguais a 30.
+
+> Os registros com o mesmo numero de carga que aparecerem serão agrupados.
+
+> Aparecerá o número total de registros com mesmo número de carga  em cada grupo.
+
+![comando sql](img1.png)
+
+![comando sql](img2.png)
+> É possível ver que o total de registros em cada grupo está de acordo com a tabela.
+
+## Agrupando por coluna:
+
+~~~~sql
+select ano, count(*) from cursos
+group by ano
+order by count(*);
+~~~~
+
+> Mostra os registros do menor grupo para o maior
+
+![comando sql](img3.png)
+
+## Selecionando agrupamentos:
+
+~~~~sql
+select ano, count(*) from cursos
+group by ano
+having count(ano) >= 5
+order by count(*) desc;
+~~~~
+
+> Mostra apenas os grupos com o número total de registros maior ou igual a 5.
+
+> No having só pode usar o campo que foi agrupado no 'group by' no caso 'ano'
+
+### Outro exemplo:
+~~~~sql
+select ano, count(*) from cursos
+where totaulas = 30
+group by ano
+having ano > 2013
+order by count(*) desc;
+~~~~
+
+> Mostra apenas os registros com total de aulas maior que 30 
+
+> Agrupa a seleção por ano
+
+> E dentro desse agrupamento só vai mostrar quem tem o ano maior que 2013
+
+![comando sql](img4.png)
+
+> Vai aparecer assim
+
+### Outro exemplo:
+
+~~~~sql
+select carga, count(*) from cursos 
+where ano > 2015
+group by carga
+having carga > (select avg(carga) from cursos);
+~~~~
+
+> Seleciona as cargas dos cursos onde o ano é maior que 2015.
+
+> Agrupa a seleção por carga.
+
+> E dentro desse agrupamento mostra as cargas que são maiores que a média de cargas no (no caso 36).
+
+> O count serve para mostrar o total de registros dentro de cada grupo.
+
+![comando sql](img5.png)
+
+> Vai mostrar assim
