@@ -937,7 +937,7 @@ select distinct carga from cursos
 order by carga;
 ~~~~
 
-> Irá mostrar todas as cargas dos cursos sem repetição caso haja cargas com numeros iguais e oordena-las em ordem crescente
+> Irá mostrar todas as cargas dos cursos sem repetição caso haja cargas com numeros iguais e ordena-las em ordem crescente
 
 ## Agrupando:
 
@@ -1007,7 +1007,7 @@ having ano > 2013
 order by count(*) desc;
 ~~~~
 
-> Mostra apenas os registros com total de aulas maior que 30 
+> Mostra apenas os registros com total de aulas iguais a 30 
 
 > Agrupa a seleção por ano
 
@@ -1037,3 +1037,133 @@ having carga > (select avg(carga) from cursos);
 ![comando sql](img5.png)
 
 > Vai mostrar assim
+
+
+# Curso MySQL #14 - Modelo Relacional
+
+## Entidades e atributos:
+
+* Entidade é onde se armazenam os dados.
+
+* Dados são atibutos ou seja uma entidade é um conjunto de atributos.
+
+![comando sql](img6.png)
+
+> Aqui temos duas entidades com seus respectivos atributos.
+
+## Relacionamentos
+
+* Faz a relação entre as entidades
+
+* São representados por losangos
+
+![comando sql](img7.png)
+> O diagrama acima é nomeado de 'DIAGRAMA E-R' ou 'DER'
+
+
+### muitos-para-muitos:
+
+* Se um registros tem relação de vários com outro e vise-versa então se coloca 'n' acima das duas entidades.
+
+#### Exemplo:
+![comando sql](img8.png)
+
+> No exemplo acima um gafanhoto assiste vários cursos então se coloca 'n' em cima da entidade 'curso' e um curso é assistido por vários gafanhotos então se coloca um 'n' em cima da entdiade 'gafanhoto'.
+
+> Isso é chamado de cardinalidade.
+
+
+### um-para-um:
+
+* Se um registro tem relação única com outro e vise-versa então se colocar '1' em cima de ambas as entidades.
+
+![comando sql](img9.png)
+
+> No exemplos acima um marido só pode casar com uma esposa e uma esposa só pode se casar com um marido.
+
+
+### um-para-muitos:
+
+* Ocorre quando um registro tem relação de muitos com o outro e o outro registro tem relação unica com o outro.
+
+![comando sql](img10.png)
+
+> No exemplo acima um funcionário pode cuidar de vários dependentes então se colocar 'n' em cima da entidade 'dependentes' e um ou varios dependetes só podem ser cuidados por um funcionário então coloca-se '1' em cima da entidade 'funcionário'.
+
+## Chave estrangeira:
+
+* have estrangeira é a chave primária de outra entidade que é usada para criar uma relação entre ambas as tabelas.
+
+*  Geralmenete as entidades domiantes são representadas a esquerda
+
+* A chave estrangeira não precisa ter o mesmo nome da chave-primária de onde ela veio, só precisa ter o mesmo tipo e tamanho.
+
+
+### um-para-um:
+
+* É escolhida uma entidade dominante que vai receber a chave primária da outra entidade como chave estrangeira e realzar a ligação.
+
+
+![comando sql](img11.png)
+
+> No exemplo acima a entidade dominante é o marido que vai receber a chave primária da esposa (cpf-esposa) como chave estragiera e assim realiazar a ligação entre as duas tabelas.
+
+### um-para-varios:
+
+* É escolhida uma entidade dominante que vai receber a chave primária da outra entidade como chave estrangeira e realzar a ligação.
+
+* A entidade domiante é a que tem 'n' na cardinalidade que vai receber a chave-primária da entidade que tem '1'.
+
+![comando sql](img12.png)
+
+> No exemplo acima a entidade dominante é o dependente que vai receber a chave primária do funcionário (cpf) como chave estragiera e assim realiazar a ligação entre as duas tabelas.
+
+> Note que o nome não precisa ser o mesmo nas duas tabelas.
+
+### muitos-para-muitos:
+
+* O relacionamento entre as entidades também se torna uma entidade
+
+* Cria-se novos relacionamentos para ligar as entidades.
+
+* a nova entidade recebe as chaves primárias das outras duas como chaves estrangeiras.
+
+![comando sql](img13.png)
+
+> No exemplo acima a compra que era um relacionamento se tornou uma entidade e recebeu as chaves primarias das outras duas entidades como chaves-estrangeiras e fez a ligação da compra com o cliente e o produto.
+
+# Curso MySQL #15 - Chaves Estrangeiras e JOIN
+
+## Adicionando a Foreign Key:
+
+### Passo 1:
+~~~~sql
+alter table gafanhotos add cursopreferido int;
+~~~~
+
+> Cria uma nova coluna para armazenar a chava-estrangeria.
+
+### Passo 2:
+
+~~~~sql
+alter table gafanhotos
+add foreign key(cursopreferido)
+references cursos(idcurso);
+~~~~
+
+> Define a coluna 'cursopreferido' como chave-estrangeira.
+
+> Faz a ligação da chave-primária 'idcurso' da tabela 'cursos' com a chave-estrangeira 'cursopreferido'.
+
+### Passo 3:
+~~~~sql
+update gafanhotos set cursopreferido = '6' where id = '1';
+~~~~
+
+> Adiciona a chave primária da tabela cursos com o idcurso igual a '6' à chave estrangeira na linha onde o id (id do gafanhoto) é igual a '1'.
+
+> Dessa forma o gafanhoto com 'id' = 1 prefere o curso com o idcurso da tabela cursos = '6'.
+
+## Integridade Referencial
+
+* Não é posssível apagar um registro que tem relação com uma chave estrageira.
