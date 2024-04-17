@@ -1045,7 +1045,7 @@ having carga > (select avg(carga) from cursos);
 
 * Entidade é onde se armazenam os dados.
 
-* Dados são atibutos ou seja uma entidade é um conjunto de atributos.
+* Dados são atributos ou seja uma entidade é um conjunto de atributos.
 
 ![comando sql](img6.png)
 
@@ -1092,7 +1092,7 @@ having carga > (select avg(carga) from cursos);
 
 ## Chave estrangeira:
 
-* have estrangeira é a chave primária de outra entidade que é usada para criar uma relação entre ambas as tabelas.
+* Chave estrangeira é a chave primária de outra entidade que é usada para criar uma relação entre ambas as tabelas.
 
 *  Geralmenete as entidades domiantes são representadas a esquerda
 
@@ -1167,3 +1167,135 @@ update gafanhotos set cursopreferido = '6' where id = '1';
 ## Integridade Referencial
 
 * Não é posssível apagar um registro que tem relação com uma chave estrageira.
+
+## Inner Join:
+
+* Analisa o que tem relação nas duas tabelas e junta elas.
+
+~~~~sql
+select gafanhotos.nome, gafanhotos.cursopreferido, cursos.nome, cursos.ano
+from gafanhotos join cursos
+on cursos.idcurso = gafanhotos.cursopreferido;
+~~~~
+> Pode se usar 'inner join' ou apenas 'join'
+
+> Seleciona as tabelas e os campos que quer mostrar.
+
+> referencia e junta com a outra.
+
+> Filtra os resultados onde os unicos cursos que vão aparecer são os que tem o id igual a chave estrangeira da coluna cursopreferido da tabela gafanhotos.
+
+> isso porque o id da tabela cursos serviu como chave estrangeira para a coluna cursopreferido da tabela gafanhotos.
+
+![comando sql](img14.png)
+
+> Vai aparecer assim
+
+### Apelidando tabelas:
+
+~~~~sql
+select g.nome, c.nome, c.ano
+from gafanhotos as g inner join cursos as c
+on c.idcurso = g.cursopreferido
+order by g.nome;
+~~~~
+
+> Usa-se o 'as' para apeldidar uma tabela.
+
+
+## outer joins:
+
+### left outer join:
+
+* Prioriza a tabela da esquerda~.
+
+~~~~sql
+select g.nome, c.nome, c.ano
+from gafanhotos as g left outer join cursos as c
+on c.idcurso = g.cursopreferido;
+~~~~
+
+> 'outer' é opcional e pode ser omitido
+
+> Vai mostrar todos os nomes da tabela gafanhotos (já que está a esquerda) e deixar as outras colunas vazias a não ser que tenham alguma relação de idcurso e cursopreferido.
+
+![comando sql](img15.png)
+
+> Vai mostrar assim
+
+### right join:
+
+* Prioriza a tabela da direita
+~
+~~~~sql
+select g.nome, c.nome, c.ano
+from gafanhotos as g right join cursos as c
+on c.idcurso = g.cursopreferido;
+~~~~
+
+> No caso vai mostrar o nome e ano de todos os cursos e vai deixar as outras colunas vazias a não ser que tenham relação de idcurso e cursopreferido.
+
+![comando sql](img16.png)
+
+# Curso MySQL #16 - INNER JOIN com várias tabelas (muitos-para-muitos)
+
+## Criando a tabela para amarzenar as chaves estrangeiras:
+
+~~~~sql
+use cadastro;
+create table gafanhoto_assiste_curso(
+id int not null auto_increment,
+data date,
+idgafanhoto int,
+idcurso int,
+primary key(id),
+foreign key (idgafanhoto) references gafanhotos(id),
+foreign key (idcurso) references cursos(idcurso)
+)default charset = utf8;
+~~~~
+
+## Inserindo dados na tabela:
+
+~~~~sql
+insert into gafanhoto_assiste_curso values
+(default, '2014-03-01', '1', '2');
+~~~~
+
+> Dessa forma o gafanhoto com 'id' igual a '1' assite o curso com 'id' ifua a '2' no dia '2014-03-01'. 
+
+![comando sql](img17.png)
+
+> Vai aparecer assim
+
+## Junções:
+
+### Usando apenas um join:
+
+~~~~sql
+select g.nome, a.idcurso from gafanhotos g
+join gafanhoto_assiste_curso a
+on g.id = a.idgafanhoto
+order by g.nome;
+~~~~
+
+> Dessa forma vai mostrar o nome do gafanhoto e o id do curso que ele assiste.
+
+![comando sql](img18.png)
+
+> Vai mostrar assim
+
+### usando dois joins para juntar mais tabelas:
+~~~~sql
+select g.nome, c.nome from gafanhotos g
+join gafanhoto_assiste_curso a
+on g.id = a.idgafanhoto
+join cursos c
+on c.idcurso = a.idcurso
+order by g.nome;
+~~~~
+
+> Dessa forma vai mostrar o nome do gafanhoto e o nome docurso que ele assiste que está em outra tabela.
+
+![comando sql](img19.png)
+
+> Vai mostrar assim
